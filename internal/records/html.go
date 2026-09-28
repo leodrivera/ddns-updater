@@ -3,6 +3,7 @@ package records
 import (
 	"encoding/json"
 	"fmt"
+	"html"
 	"strings"
 	"time"
 
@@ -157,7 +158,7 @@ func convertStatusWithTooltip(status models.Status, message string) string {
 	tooltipAttr := ""
 	if message != "" {
 		tooltipClass = " has-status-tooltip"
-		tooltipAttr = fmt.Sprintf(` data-tooltip="%s"`, escapeHTML(message))
+		tooltipAttr = fmt.Sprintf(` data-tooltip="%s"`, html.EscapeString(message))
 	}
 
 	switch status {
@@ -231,16 +232,6 @@ func formatIPVersion(ipVersion string) string {
 	default:
 		return ipVersion
 	}
-}
-
-// escapeHTML escapes special HTML characters to prevent XSS.
-func escapeHTML(s string) string {
-	s = strings.ReplaceAll(s, "&", "&amp;")
-	s = strings.ReplaceAll(s, "<", "&lt;")
-	s = strings.ReplaceAll(s, ">", "&gt;")
-	s = strings.ReplaceAll(s, "\"", "&quot;")
-	s = strings.ReplaceAll(s, "'", "&#39;")
-	return s
 }
 
 // getStatusClass returns CSS class for row background tinting.
