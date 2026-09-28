@@ -63,9 +63,9 @@ func Test_update_postOnlyAndSameOrigin(t *testing.T) {
 			t.Parallel()
 
 			updater := &countingUpdater{}
-			handler := newHandler(t.Context(), "/", emptyDatabase{}, updater, nil)
+			handler := newHandler(t.Context(), "/", emptyDatabase{}, updater)
 
-			request := httptest.NewRequest(testCase.method, "http://ddns.example.com/update", nil)
+			request := httptest.NewRequestWithContext(t.Context(), testCase.method, "http://ddns.example.com/update", nil)
 			for key, value := range testCase.headers {
 				request.Header.Set(key, value)
 			}

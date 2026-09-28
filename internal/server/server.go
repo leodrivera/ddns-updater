@@ -7,10 +7,10 @@ import (
 )
 
 func New(ctx context.Context, address, rootURL string, db Database,
-	logger Logger, runner UpdateForcer, ipGetter PublicIPFetcher,
+	logger Logger, runner UpdateForcer,
 ) (server *httpserver.Server, err error) {
 	return httpserver.New(httpserver.Settings{
-		Handler: newHandler(ctx, rootURL, db, runner, ipGetter),
+		Handler: newHandler(ctx, rootURL, db, runner),
 		Address: &address,
 		Logger:  logger,
 	})
