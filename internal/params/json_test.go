@@ -1,6 +1,7 @@
 package params
 
 import (
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -39,7 +40,7 @@ func Test_extractAllSettings(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
-			providers, _, err := extractAllSettings([]byte(`{"settings": [` + testCase.settings + `]}`))
+			providers, _, err := extractAllSettings([]byte(`{"settings": [`+testCase.settings+`]}`), os.ReadFile)
 
 			switch {
 			case testCase.errMessage != "":
