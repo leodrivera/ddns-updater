@@ -47,8 +47,9 @@
     `;
 
     try {
-      const response = await fetch('/update', {
-        method: 'GET',
+      // Relative URL so it works under ROOT_URL; POST only (the server refuses GET).
+      const response = await fetch('update', {
+        method: 'POST',
       });
 
       const responseText = await response.text();

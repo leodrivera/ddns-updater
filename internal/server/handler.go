@@ -58,9 +58,12 @@ func newHandler(ctx context.Context, rootURL string,
 	}
 	router.Get(rootURL+"/", handlers.index)
 
-	router.Get(rootURL+"/update", handlers.update)
+	// Triggers DNS updates, so never a GET (a link or <img> on any site could fire it).
+	router.Post(rootURL+"/update", handlers.update)
 
 	router.Handle(rootURL+"/static/*", http.StripPrefix(rootURL+"/static/", http.FileServerFS(staticFolder)))
 
-	return router
+	// Rejects non-safe (e.g. POST) browser requests coming from another origin, so a
+	// page on another site cannot submit a form to /update with the user's credentials.
+	return http.NewCrossOriginProtection().Handler(router)
 }
